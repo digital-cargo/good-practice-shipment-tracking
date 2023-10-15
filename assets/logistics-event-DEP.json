@@ -1,0 +1,25 @@
+{
+    "@context": {
+        "vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@type": "LogisticsEvent",
+    "@id": "https://1r.example.com/logistics-object/abcd/logistics-events/xyz",
+    "eventCode": {
+        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_DEP"
+    },
+    "eventName": "Consignment departed on a specific flight",
+    "eventDate": {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2023-04-01T10:38:01.000Z"
+    },
+    "eventTimeType": {
+        "@id": "https://onerecord.iata.org/ns/cargo#ACTUAL"
+    },
+    "recordedAtLocation": {
+        "@type": "Location",
+        "@id": "https://1r.example.com/logistics-objects/FRA",
+        "locationCode": "FRA",
+        "locationName": "Frankfurt Airport",
+        "locationType": "Airport"
+    }
+}
