@@ -1,0 +1,21 @@
+{
+    "@context": {
+        "@vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@id": "https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c",
+    "@type": "Waybill",
+    "arrivalLocation": {
+        "@id": "https://1r.example.com/logistics-objects/JFK"
+    },
+    "departureLocation": {
+        "@id": "https://1r.example.com/logistics-objects/FRA"
+    },
+    "shipment": {
+        "@id": "https://1r.example.com/logistics-objects/8a76ed85-959e-45d5-8c42-5fd39c08efb1"
+    },
+    "waybillNumber": "12345675",
+    "waybillPrefix": "020",
+    "waybillType": {
+        "@id": "https://onerecord.iata.org/ns/cargo#MASTER"
+    }
+}

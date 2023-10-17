@@ -1,0 +1,25 @@
+{
+    "@context": {
+        "@vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@id": "https://1r.example.com/logistics-objects/8a76ed85-959e-45d5-8c42-5fd39c08efb1",
+    "@type": "Shipment",
+    "pieces": [
+        {
+            "@id": "https://1r.example.com/logistics-objects/21ed25ef-4ef9-45ac-9088-b003d32ded95"
+        }
+    ],
+    "totalGrossWeight": {
+        "@type": "Value",
+        "value": {
+            "@type": "http://www.w3.org/2001/XMLSchema#double",
+            "@value": "100"
+        },
+        "unit": {
+            "@id": "https://onerecord.iata.org/ns/coreCodeLists#MeasurementUnitCode_KGM"
+        }
+    },
+    "waybill": {
+        "@id": "https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c"
+    }
+}

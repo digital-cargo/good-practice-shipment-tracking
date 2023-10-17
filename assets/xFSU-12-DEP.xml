@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<statusMessageType xmlns:ns2="iata:statusmessage:1" xmlns:ns3="iata:datamodel:3">
+    <ns2:MessageHeaderDocument />
+    <ns2:BusinessHeaderDocument />
+    <ns2:MasterConsignment>
+        <ns3:GrossWeightMeasure unitCode="KGM">350</ns3:GrossWeightMeasure>
+        <ns3:PieceQuantity>10</ns3:PieceQuantity>
+        <ns3:TransportSplitDescription>T</ns3:TransportSplitDescription>
+        <ns3:TransportContractDocument>
+            <ns3:ID>020-12345675</ns3:ID>
+            <ns3:TypeCode>740</ns3:TypeCode>
+        </ns3:TransportContractDocument>
+        <ns3:OriginLocation>
+            <ns3:ID>FRA</ns3:ID>
+        </ns3:OriginLocation>
+        <ns3:FinalDestinationLocation>
+            <ns3:ID>JFK</ns3:ID>
+        </ns3:FinalDestinationLocation>
+        <ns3:ReportedStatus>
+            <ns3:ReasonCode>DEP</ns3:ReasonCode>
+            <ns3:AssociatedStatusConsignment>
+                <ns3:GrossWeightMeasure unitCode="KGM">350</ns3:GrossWeightMeasure>
+                <ns3:PieceQuantity>10</ns3:PieceQuantity>
+                <ns3:TransportSplitDescription>T</ns3:TransportSplitDescription>
+                <ns3:SpecifiedLogisticsTransportMovement>
+                    <ns3:SpecifiedLocation>
+                        <ns3:ID>NCE</ns3:ID>
+                        <ns3:TypeCode>Airport</ns3:TypeCode>
+                    </ns3:SpecifiedLocation>
+                    <ns3:SpecifiedEvent>
+                        <ns3:OccurrenceDateTime>2023-10-16T16:15:00.000Z</ns3:OccurrenceDateTime>
+                        <ns3:DateTimeTypeCode>A</ns3:DateTimeTypeCode>
+                    </ns3:SpecifiedEvent>
+                </ns3:SpecifiedLogisticsTransportMovement>
+                <ns3:DeliveryParty>
+                    <ns3:Name>MICLARK</ns3:Name>
+                </ns3:DeliveryParty>
+            </ns3:AssociatedStatusConsignment>
+        </ns3:ReportedStatus>
+    </ns2:MasterConsignment>
+</statusMessageType>

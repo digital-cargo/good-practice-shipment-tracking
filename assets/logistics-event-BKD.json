@@ -8,11 +8,11 @@
         "@id": "https://onerecord.iata.org/ns/cargo#ACTUAL"
     },
     "eventCode": {
-        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_DEP"
+        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_BKD"
     },    
     "eventDate": {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-        "@value": "2023-04-01T10:38:01.000Z"
+        "@value": "2023-04-01T06:38:01.000Z"
     },    
     "recordedAtLocation": {        
         "@id": "https://1r.example.com/logistics-objects/FRA"        

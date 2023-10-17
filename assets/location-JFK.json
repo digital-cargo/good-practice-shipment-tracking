@@ -1,0 +1,12 @@
+{
+    "@context": {
+        "@vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@type": "Location",
+    "@id": "https://1r.example.com/logistics-objects/JFK",
+    "locationCode": {
+        "@type": "CodeListElement",
+        "code": "JFK",
+        "codeListName": "IATA airport codes"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "@context": {
+        "@vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@type": "Location",
+    "@id": "https://1r.example.com/logistics-objects/FRA",
+    "locationCode": {
+        "@type": "CodeListElement",
+        "code": "FRA",
+        "codeListName": "IATA airport codes"
+    }
+}

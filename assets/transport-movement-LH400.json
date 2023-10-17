@@ -1,0 +1,17 @@
+{
+    "@context": {
+        "@vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@id": "https://1r.example.com/logistics-objects/bfcae0d4-9a29-4e60-880d-213aac434776",
+    "@type": "TransportMovement",
+    "actions": {
+        "@id": "https://1r.example.com/logistics-objects/5a4ade17-fe91-4d0c-bb79-8685a99d5634"
+    },
+    "arrivalLocation": {
+        "@id": "https://1r.example.com/logistics-objects/JFK"
+    },
+    "departureLocation": {
+        "@id": "https://1r.example.com/logistics-objects/FRA"
+    },
+    "transportIdentifier": "LH400/16OCT2023"
+}
