@@ -323,6 +323,7 @@ The following class diagram shows the LogisticsObject data classes used and thei
     }
     Waybill "1" --> "1" Location: arrivalLocation     
     Waybill "1" --> "1" Location: departureLocation     
+    Waybill "1" --> "1" Booking: referredBookingOption
     Waybill "1" --> "1" WaybillType: waybillType          
     Waybill "1" --> "1" Shipment: shipment                
 
