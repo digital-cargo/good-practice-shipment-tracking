@@ -226,8 +226,8 @@ Depending on the type of LogisticsEvents, different types of LogisticsOjects are
 | DIS-MSAV: Missing mail                                                   | Shipment / Piece                     |                                                               |
 | DIS-MSAW: Missing mailbag                                                | Shipment / Piece                     |                                                               |
 | DIS-MSCA: Missing cargo                                                  | Shipment / Piece                     |                                                               |
-| DIS-OFLD: Off loaded                                                     | Shipment / Piece                     |                                                               |
-| DIS-OVCD: Over carried                                                   | Shipment / Piece                     |                                                               |
+| DIS-OFLD: Off loaded                                                     | Shipment / Piece / TransportMovement |                                                               |
+| DIS-OVCD: Over carried                                                   | Shipment / Piece / TransportMovement |                                                               |
 | DIS-SSPD: Short shipped                                                  | Shipment / Piece                     |                                                               |
 | DLV: Consignment delivered to the consignee or agent                     | Shipment / Piece                     |                                                               |
 | DOC: Documents received by Handling Party                                | Shipment / Piece                     |                                                               |
@@ -236,7 +236,7 @@ Depending on the type of LogisticsEvents, different types of LogisticsOjects are
 | FOW: Freight Out of Warehouse Control                                    | Shipment / Piece                     |                                                               |
 | MAN: manifested on a specific flight                                     | Shipment / Piece / TransportMovement |                                                               |
 | NFD: arrived at destination and the consignee or agent has been informed | Shipment / Piece                     |                                                               |
-| PRE: prepared for loading on a specific flight                           | Shipment / Piece                     |                                                               |
+| PRE: prepared for loading on a specific flight                           | Shipment / Piece / TransportMovement |                                                               |
 | RCF: received from a given flight                                        | Shipment / Piece / TransportMovement |                                                               |
 | RCS: received from shipper or agent                                      | Shipment / Piece                     |                                                               |
 | RCT: received shipments transferred from other carriers                  | Shipment / Piece                     |                                                               |
