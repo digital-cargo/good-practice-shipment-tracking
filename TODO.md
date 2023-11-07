@@ -36,3 +36,39 @@ Changelog 2023-11-03
 
 - add discussion section
 - known tradeoffs: duplicate data due to implicity, for example, a linked Loading LogisticsObject between a Piece and TransportMovement has the same information as the planned LogisticsEvents PRE and MAN
+
+
+```json
+{
+    "@context": {
+        "@vocab": "https://onerecord.iata.org/ns/cargo#"
+    },
+    "@type": "Location",
+    "@id": "https://1r.example.com/logistics-objects/FRA",
+    "locationCode": {
+        "@type": "CodeListElement",
+        "code": "FRA",
+        "codeListName": "IATA airport codes"
+    },
+
+    # Alternative 1
+    "locationType": {
+        "@type": "CodeListElement",
+        "code": "AIRPORT",
+        "codeListName": "Location type codes"
+    }
+
+    # Alternative 2
+    "locationType": "AIRPORT",
+    "locationType": "Airport";
+    "locationType": "A",
+
+    # Alternative 3
+    "locationType": {
+        "@id": "https://onerecord.iata.org/ns/coreCodeList#LocationType_AIRPORT"
+    }
+
+    # Alternative 4: something else?!
+    
+}
+```
