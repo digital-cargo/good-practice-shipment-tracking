@@ -8,7 +8,7 @@
         "@id": "https://onerecord.iata.org/ns/cargo#ACTUAL"
     },
     "eventCode": {
-        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_FOH"
+        "@id": "https://onerecord.iata.org/ns/coreCodeLists#StatusCode_FOH"
     },
     "eventDate": {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",

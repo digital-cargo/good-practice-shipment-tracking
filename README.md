@@ -61,7 +61,7 @@ api-endpoints:
 ---
 -->
 
-# Good Practice: Shipment Tracking
+# Good Practice: ShipmentTracking
 [![Made with love for Digital Cargo](https://img.shields.io/badge/Made%20with%20%E2%9D%A4%20for-Digital%20Cargo-dce435)](https://digital-cargo.org)
 [![GitHub](https://img.shields.io/github/license/digital-cargo/good-practice-shipment-tracking)](https://creativecommons.org/licenses/by/4.0/)
 [![Releases](https://img.shields.io/github/v/release/digital-cargo/good-practice-shipment-tracking)](https://github.com/digital-cargo/good-practice-shipment-tracking/releases)
@@ -75,8 +75,7 @@ The ONE record standard remedies this situation.
 By endorsing a shared data model and a unified API structure, it offers a streamlined platform for shipment status data exchange. 
 This good practice document describes the methodology for providing tracking data and shipment status updates via ONE Record, making this data effortlessly accessible to others. 
 
-Based on the ONE Record API version 2.0.0 and the ONE Record data model version 3.0.0, this document provides guidance on how shipment tracking data can be provided by a data holder and consumed by others in a easiy to use and standardized way.
-
+Based on the ONE Record API version 2.0.0 and the ONE Record Data Model version 3.0.0, this document provides guidance on how to provide shipment tracking data in an easy-to-use and standardized manner.
 
 ## Introduction
 
@@ -85,15 +84,18 @@ Yet, as businesses expand and systems diversify, the industry faces a challenge:
 This fragmentation not only complicates operations but also escalates costs and reduces efficiency.
 
 Initiated and moderated by the International Air Transportation Association (IATA), in 2022, major stakeholders of the supply chain decided to aim for a renewed data sharing infrastructure for the global logistics networks by 2026.
-Enter the ONE Record — a standard that aims to unify, streamline, and elevate shipment data across the industry. 
-By leveraging the ONE Record standard, stakeholders can tap into a consistent data model and API, promoting seamless integration across various platforms and enhancing collaboration among different entities. 
+Enter the ONE Record standard, which aims to unify, streamline and improve shipping data across the industry. 
+By leveraging the ONE Record standard, stakeholders can draw on a unified data model and API that promotes seamless integration across various platforms and improves collaboration between various organizations. 
 This standardization comes with a number of benefits, from reducing the complexity and cost of custom integrations to enhancing transparency and trust.
 It lays the foundation for standardization, enabling a consistent data model and API across diverse platforms, thereby streamlining integrations and collaborations.
 This uniformity heightens transparency, allowing stakeholders to effortlessly interpret shipment data, fostering trust throughout the supply chain.
 Moreover, the standardized approach curtails complexities tied to integration, conserving both time and resources that might otherwise be diverted to bespoke solutions. 
 
-As a first step, some parties agreed to implement an shipment tracking API in 2023 based on the novel ONE Record data standard.
-The open tracking use case is not limited to carriers. As described below, there is also a place for data platform, shippers and many other stakeholders to apply this use case.
+As a first step, some parties agreed to implement a shipment tracking API in 2023 based on the novel ONE Record data standard.
+The use case is not limited to carriers. As described below, there is also a place for data platform, shippers and many other stakeholders to apply this use case.
+
+As a first step, some parties have agreed to introduce an API for shipment tracking based on the new ONE Record data standard in 2023.
+The user group is not limited to freight forwarders; data platforms, shippers and many other players can also participate and use it.
 
 Within the realm of shipment tracking data exchange, it's assumed that at least one stakeholder in the supply chain can report shipment progress, 
 while others are keen on accessing this data using unique shipment IDs. And, that all of these parties agree on ONE Record as the standard for information exchange.
@@ -155,13 +157,13 @@ Updates to logistics object owned by a different party are subject to 1R Change 
 In this variant, one party (e.g. a freight forwarder, shipper, or other party) uses ONE Record to publish LogisticsObjects data, and other parties 
 link those LogisticsObjects, every party will also receive data updates from the others.
 
+In this variant, the ONE Record Change Request process is used whenever an existing logistics object is updated by another party who is not the data holder.
+For example, a forwarder publishes waybill, shipment and piece data objects and a carrier contributes shipment tracking data in the form of LogisticsEvents and/or corrects weights. 
+
+As a consequence, the freight forwarder would have to request a change in the weights of the freight forwarder's packages via the [ONE Record ChangeRequest mechanism](https://iata-cargo.github.io/ONE-Record/logistics-objects/#update-a-logistics-object).
+
 This variant is also called the [ShipmentRecord](https://github.com/digital-cargo/good-practice-shipment-record) exchange use case.
 Therefore, some logistics objects used for use case ShipmentRecord are also used for use case ShipmentTracking, e.g. quantity details of the shipment.
-
-In this case 1R Change Request process might have to be applied, i.e. whenever an existing logistics object is updated by a different party who is not the owner of the data. 
-Example scenarios:
-Freight forwarder provides AWB data via ShipmentRecord use case and carrier contributes ShipmentTracking data where pieces and/or weight has changed
-The result is that the carrier must then request a change that relates to the weights of the Fowarders pieces, via the [ONE Record ChangeRequest mechanism] (https://iata-cargo.github.io/ONE-Record/logistics-objects/#update-a-logistics-object).
 
 ## Background
 
@@ -176,86 +178,71 @@ Furthermore, it utilises the [ONE Record API specificaiton v2.0.0](https://iata-
 
 ### Related Good Practices
 
-The [shipment tracking](https://github.com/digital-cargo/good-practice-shipment-tracking) use case is closely related to the [shipment record](https://github.com/digital-cargo/good-practice-shipment-record) use case 
-used to exchange all related shipment data, e.g. derived from (M)AWB and HAWB data. 
-Thus, a some of the data classes and data properties are used in both use cases.
-This also has implications for the data exchange scenarios described later in this document.
+The [ShipmentTracking](https://github.com/digital-cargo/good-practice-shipment-tracking) use case is closely related to the [shipment record](https://github.com/digital-cargo/good-practice-shipment-record) use case which is also based on the ONE Record standard. However, the ShipmentTracking use case is limited to the exchange of shipment status information with other parties, while the ShipmentRecord use case concerns the exchange of all shipment-related data with other parties, comparabel to today's (M)AWB and HAWB data. 
+Thus, some of the data classes and data properties are used in both use cases.
 
 ### Piece-centricity and physics-orientation
 
-Today, in air cargo, tracking information is usually provided on shipment level, but the ONE Record data model follows piece-centricicity as a core design principle. 
-As a second principle, ONE Record is oriented towards reflecting the physical world. 
-For example, in ONE Record, it is not an abstract legal object like the AWB that reaches a shipment tracking milestone, 
-but an aircraft on a transport movement with loaded pieces. 
-When all pieces of a shipment have departed, the shipment has departed. 
+Today in air cargo, tracking information is typically provided at the shipment level, but the ONE Record data model follows the principle of piece-centricity as a core design principle.
+Another design principle of ONE Record is its aim to reflect the actual physical world, its objects and activities. 
+For example, in ONE Record, it is not a legal object or a paper document such as the Air Waybill (AWB) that marks the progress of a shipment and reaches a milestone. 
+Instead, it is the actual [Piece](https://onerecord.iata.org/ns/cargo#Piece), the wrapping [Shipment](https://onerecord.iata.org/ns/cargo#Shipment), or a [TransportMovement](https://onerecord.iata.org/ns/cargo#TransportMovement) activity that reaches a milestone in the journey. 
+For example, when every piece in a shipment has been loaded and the aircraft departs, we consider the entire shipment as having departed.
 
 ### skeletonIndicator
 
-The `skeletonIndiciator` is a specific marker or flag used within data objects in the ONE Record standard. 
-The `skeletonIndicator` signifies that the data object and its properties act as placeholders and do not represent granular, individual data
+The [skeletonIndicator](https://onerecord.iata.org/ns/cargo#skeletonIndicator) is a specific marker or flag used within data objects in the ONE Record standard. 
+The [skeletonIndicator](https://onerecord.iata.org/ns/cargo#skeletonIndicator) signifies that the data object and its properties act as placeholders and do not represent granular, individual data
 points. Instead, they offer a high-level or "skeletal" representation of the data, primarily for modeling piece-level data.
 
-It allows modeling of piecewise data in a not fully piecewise world but in transition. It sets the basis for future developments.
-This is especially advantageous when piece-level granularity is not required, when non-unifiable data sets are involved, or when piece-level handling is not yet applicable in physical operations.
+It enables piece-level modeling of shipment data in a not fully piece-level environment that is in transition, 
+but provides the basis for future developments. 
+This can be useful (1) when piece-level granularity is not required, (2) when non-integrable data sets are involved, 
+(3) or when piece-level processing is not yet feasible in physical handling operations.
 
-### Freight Status Updates
+### Shipment Milestones
 
 Baseline for this use case is sharing the same tracking information shared today by freight status update (FSU) messages in Cargo-IMP/Cargo-XML-based messaging. 
-Additional information beyond these standards can be shared (like the FIW/FOW milestones that cannot be shared in cIMP). 
+Additional information that goes beyond these standards can be exchanged ( for example, the FIW/FOW milestones, which cannot be exchanged in the current cIMP standard). 
 
-The solution should principally "open" to maximize the user's benefits and minimize hurdles of implementation. 
-This means that a basic layer of information should be available for data consumers without authentication. 
-Some stakeholders might still require technical features like API keys for technical management, 
-hurdles should be kept as low as possible for the user.
+The following table lists typical shipment milestones that SHOULD be supported in ShipmentTracking implementations. 
+Depending on the type of LogisticsEvents, different types of LogisticsOjects are linked to them for ShipmentTracking. 
 
-Although the base layer is as open as possible, additional, more sensitive information can be made available over the same API endpoints after an authentication. 
-Thus, this use case is a good starting point for entering the ONE Record digital eco system.
-
-This impacts the implementation in so far, as some milestones are linked to other objects in a ONE Record environment compared to the current legacy environment.
-
-The following table shows the ONE Record LogisticsObject used to link a milestone available in legacy Cargo-IMP and CargoXML:
-
-| Milestone / FSU code, description                                        | Linked ONE Record objects            | ONE Record LogisticsEvent example                             |
+| Milestone, description                                                   | Linked ONE Record objects            | ONE Record LogisticsEvent example                             |
 | ------------------------------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------- |
-| BKD: booked on a specific flight                                         | Shipment                             | [logistics-event-BKD.json](./assets/logistics-event-BKD.json) |
-| FIW: Freight Into Warehouse Control                                      | Shipment / Piece                     | [logistics-event-FIW.json](./assets/logistics-event-FIW.json) |
-| FOW: Freight Out of Warehouse Control                                    | Shipment / Piece                     | [logistics-event-FOW.json](./assets/logistics-event-FOW.json) |
-| DOC: Documents received by Handling Party                                | Shipment / Piece                     |                                                               |
-| FOH: Freight on Hand                                                     | Shipment / Piece                     | [logistics-event-FOH.json](./assets/logistics-event-FOH.json) |
-| RCS: received from shipper or agent                                      | Shipment / Piece                     |                                                               |
-| PRE: prepared for loading on a specific flight                           | Shipment / Piece / TransportMovement |                                                               |
-| MAN: manifested on a specific flight                                     | Shipment / Piece / TransportMovement |                                                               |
-| DEP: departed on a specific flight                                       | Shipment / Piece / TransportMovement |                                                               |
 | ARR: arrived on a specific flight                                        | Shipment / Piece / TransportMovement |                                                               |
-| RCF: received from a given flight                                        | Shipment / Piece / TransportMovement |                                                               |
-| AWR: documents arrived on a given flight at destination airport          | Shipment / Piece / TransportMovement |                                                               |
-| NFD: arrived at destination and the consignee or agent has been informed | Shipment / Piece                     |                                                               |
 | AWD: arrival documents have been delivered to the consignee or his agent | Shipment / Piece                     |                                                               |
-| DLV: Consignment delivered to the consignee or agent                     | Shipment / Piece                     |                                                               |
-| DDL: delivered to consignee door                                         | Shipment / Piece                     |                                                               |
-| TRM: Consignment to be transferred to another airline                    | Shipment / Piece                     |                                                               |
-| TFD: Consignment transferred to another airline                          | Shipment / Piece                     |                                                               |
-| TGC: transferred to Customs/Government control                           | Shipment / Piece                     |                                                               |
-| RCT: received shipments transferred from other carriers                  | Shipment / Piece                     |                                                               |
+| AWR: documents arrived on a given flight at destination airport          | Shipment / Piece / TransportMovement |                                                               |
+| BKD: booked on a specific flight                                         | Shipment                             | [logistics-event-BKD.json](./assets/logistics-event-BKD.json) |
 | CCD: Consignment cleared by customs                                      | Shipment / Piece                     |                                                               |
 | CRC: reported to customs                                                 | Shipment / Piece                     |                                                               |
-| DIS: with a discrepancy                                                  | Shipment / Piece                     |                                                               |
-
-The following sub-milestones are available for discrepancy (DIS) milestones in legacy Cargo-IMP and CargoXML:
-
-| DIS Milestone / code, description | Linked ONE Record objects | ONE Record LogisticsEvent example |
-| --------------------------------- | ------------------------- | --------------------------------- |
-| DIS/DFLD: Definitely loaded       | Shipment / Piece          |                                   |
-| DIS/FDAV: Found mail              | Shipment / Piece          |                                   |
-| DIS/FDAW: Found air waybill       | Shipment / Piece          |                                   |
-| DIS/FDCA: Found Cargo             | Shipment / Piece          |                                   |
-| DIS/FDMB: Found mailbag           | Shipment / Piece          |                                   |
-| DIS/MSAV: Missing mail            | Shipment / Piece          |                                   |
-| DIS/MSAW: Missing mailbag         | Shipment / Piece          |                                   |
-| DIS/MSCA: Missing cargo           | Shipment / Piece          |                                   |
-| DIS/OFLD: Off loaded              | Shipment / Piece          |                                   |
-| DIS/OVCD: Over carried            | Shipment / Piece          |                                   |
-| DIS/SSPD: Short shipped           | Shipment / Piece          |                                   |
+| DDL: delivered to consignee door                                         | Shipment / Piece                     |                                                               |
+| DEP: departed on a specific flight                                       | Shipment / Piece / TransportMovement |                                                               |
+| DIS-DFLD: Definitely loaded                                              | Shipment / Piece                     |                                                               |
+| DIS-FDAV: Found mail                                                     | Shipment / Piece                     |                                                               |
+| DIS-FDAW: Found air waybill                                              | Shipment / Piece                     |                                                               |
+| DIS-FDCA: Found cargo                                                    | Shipment / Piece                     |                                                               |
+| DIS-FDMB: Found mailbag                                                  | Shipment / Piece                     |                                                               |
+| DIS-MSAV: Missing mail                                                   | Shipment / Piece                     |                                                               |
+| DIS-MSAW: Missing mailbag                                                | Shipment / Piece                     |                                                               |
+| DIS-MSCA: Missing cargo                                                  | Shipment / Piece                     |                                                               |
+| DIS-OFLD: Off loaded                                                     | Shipment / Piece                     |                                                               |
+| DIS-OVCD: Over carried                                                   | Shipment / Piece                     |                                                               |
+| DIS-SSPD: Short shipped                                                  | Shipment / Piece                     |                                                               |
+| DLV: Consignment delivered to the consignee or agent                     | Shipment / Piece                     |                                                               |
+| DOC: Documents received by Handling Party                                | Shipment / Piece                     |                                                               |
+| FIW: Freight Into Warehouse Control                                      | Shipment / Piece                     |                                                               |
+| FOH: Freight on Hand                                                     | Shipment / Piece                     | [logistics-event-FOH.json](./assets/logistics-event-FOH.json) |
+| FOW: Freight Out of Warehouse Control                                    | Shipment / Piece                     |                                                               |
+| MAN: manifested on a specific flight                                     | Shipment / Piece / TransportMovement |                                                               |
+| NFD: arrived at destination and the consignee or agent has been informed | Shipment / Piece                     |                                                               |
+| PRE: prepared for loading on a specific flight                           | Shipment / Piece                     |                                                               |
+| RCF: received from a given flight                                        | Shipment / Piece / TransportMovement |                                                               |
+| RCS: received from shipper or agent                                      | Shipment / Piece                     |                                                               |
+| RCT: received shipments transferred from other carriers                  | Shipment / Piece                     |                                                               |
+| TFD: Consignment transferred to another airline                          | Shipment / Piece                     |                                                               |
+| TGC: transferred to Customs/Government control                           | Shipment / Piece                     |                                                               |
+| TRM: Consignment to be transferred to another airline                    | Shipment / Piece                     |                                                               |
 
 _(sorted alphabetically)_
 
@@ -269,7 +256,7 @@ This good practice incorporates data classes of the [ONE Record cargo ontology](
 and the [ONE Record core code lists ontology](https://onerecord.iata.org/ns/coreCodeLists).
 For clarity, class inheritance and unused data properties are excluded, and only required properties and relationships are visualized in the following.
 
-The following class diagram shows the LogisticsObject data classes used and their relationships to the LogisticsEvent data class in the context of shipment tracking.
+The following class diagram shows the LogisticsObject data classes used and their relationships to the LogisticsEvent data class in the context of ShipmentTracking.
 
 ```mermaid
     classDiagram
@@ -341,7 +328,7 @@ The following class diagram shows the LogisticsObject data classes used and thei
       + grossWeight: Value      
       + involvedInActions: LogisticsAction [0..*]
       + ofShipment: Shipment
-      + skeletonIndicator: xsd:boolean [0..1]      
+      + skeletonIndicator: xsd:boolean [0..1]
     }    
     Piece "1" --> "1" Value: grossWeight    
     Piece "1" --> "*" Loading: involvedInActions
@@ -360,7 +347,7 @@ The following class diagram shows the LogisticsObject data classes used and thei
     Loading "1" --> "1" TransportMovement: servedActivity     
 
     class TransportMovement~LogisticsActivity~ {
-      + actions: Loading [1..*] 
+      + actions: Loading [1..*]
       + arrivalLocation: Location
       + departureLocation: Location
       + events: LogisticsEvent [0..*]
@@ -495,7 +482,7 @@ The following class diagram visualizes the LogisticsEvent data class:
     }
 ```
 
-## Data Mapping
+### Data Mapping
 
 This section covers modelling and usage of classes and data elements from ONE Record data model, in particular the modelling of shipment status (also referred to as milestone or event) information 
 on shipment-level and on piece-level, and considering specific scenarios, such as split shipments - shipments handled or moved in different parts - and transit shipments.
@@ -504,7 +491,7 @@ Other than ONE Record, the data structure supported and used by a Transport Mana
 involved in ShipmentTracking related data exchange might not (yet) support the piece centric concept. Moreover, 
 there is usually no dedicated distinction between physical, contractual and other categories the data is related to. 
 
-This also applies to traditional messaging standards such as IATA Cargo-IMP, Cargo-XML, internal web services, etc.
+This also applies to traditional messaging standards such as Cargo-IMP, Cargo-XML, internal web services, etc.
 Especially during the transition period it might therefore be required to convert data between 1R standard and other 
 data formats and data structures.
 
@@ -513,13 +500,21 @@ For this purpose, the target data format and guidelines for mapping between the 
 Apart from the need of defining one dimensional mapping rules between the concerned data elements, general directions.
 of how to organize transferring data between those different structures must be defined.
 
-### Guidelines for the modeling of shipment tracking data
+### Implementation Guidelines
+
+This section outlines mandatory and best practice guidelines for the ShipmentTracking use case in accordance with the ONE Record standard. 
+For every data class and property, compliance requires adherence to certain guidelines marked as MUST, while it is RECOMMENDED to follow others for best practices. 
+Additionally, to facilitate comprehension, practical data examples are included to demonstrate the implementation of these guidelines.
 
 **Location**
 
-- A Location object is a LogisticsObject and therefore SHOULD be created only once and MUST be linked afterwards.
-- It is RECOMMENDED to choose an easily recognizable logisticsObjectId
-- For Shipment Tracking, only the [locationCode](https://onerecord.iata.org/ns/cargo#locationCode) property MUST be set.
+- A Location data object is a special LogisticsObject because it has a long lifespan and is linked comparatively often. Therefore, a location object SHOULD only be created once and then only referenced.
+- It is possible that the same or a similar location is referenced by different organizations with different @id, e.g. because they are hosted on different servers. For example, a TransportMovement (on the ONE Record server of a carrier) refers to an FRA location, while a waybill (on the ONE Record server of a forwarder) also refers to an FRA location. In this case, both locations can have different @id. However, it is RECOMMENDED to refer to the same location (represented by the same @id) wherever possible.
+- If only one data holder shares the data (variant 1 and variant 2), the @id of the Location object is the same.
+- Since a Location object is typically stable yet frequently referenced master data, it is RECOMMENDED to choose an easily recognizable `@id`.
+For instance, use `https://1r.example.com/logistics-objects/FRA` to represent Frankfurt Airport.
+- For ShipmentTracking, besides the `@id` only the [locationCode](https://onerecord.iata.org/ns/cargo#locationCode) property MUST be set.
+- Location data objects can be created ad-hoc during the data provisioning of shipment tracking data, e.g. when a new Location is referenced in a TransportMovement or Waybill object, or they can be created in advance, e.g. once during the initial setup of the ONE Record server and afterwards when a new location is added to the logistics network.
 
 ```json
 {
@@ -647,9 +642,15 @@ See [UUID Version-5 Generator](https://www.uuidtools.com/v5), e.g. uuid5(namespa
 ```
 ([loading.json](./assets/loading.json))
 
-- For shipment tracking, the Loading data object is required to establish a connection between Pieces and the TransportMovements
+- For ShipmentTracking, the Loading data object is required to establish a connection between Pieces and the TransportMovements
 
 **TransportMovement**
+
+- For ShipmentTracking, every TransportMovement MUST have a [transportIdentifier](https://onerecord.iata.org/ns/cargo#transportIdentifier) property with the following structure:
+`{carrier code in capital letters as two 2-digit code}{flight number 3-digit to 5-digit}{optional suffix}/{departure date as DDMMMyyyy}` or as regular expression:
+`([A-Z]{2}|[A-Z\d]{2})\d{3-5}[A-Z]?\/\d{2}[A-Z]{3}\d{4}`. Examples: LH100S/16OCT2023, S72510/02NOV2023
+- [arrivalLocation](https://onerecord.iata.org/ns/cargo#arrivalLocation) property MUST be a link to a Location data object
+- [departureLocation](https://onerecord.iata.org/ns/cargo#departureLocation) property MUST be a link to a Location data object
 
 ```json
 {
@@ -672,39 +673,33 @@ See [UUID Version-5 Generator](https://www.uuidtools.com/v5), e.g. uuid5(namespa
 ```
 ([transport-movement-LH400.json](./assets/transport-movement-LH400.json))
 
-- For shipment tracking, every TransportMovement MUST have a [transportIdentifier](https://onerecord.iata.org/ns/cargo#transportIdentifier) property with the following structure:
-`{carrier code in capital letters}{flight number 3-digit or 4-digit}/{departure date as DDMMMyyyy}` or `[A-Z]{2}[0-9]{3,4}\/[0-9]{2}[A-Z]{3}[0-9]{4}`
-- [arrivalLocation](https://onerecord.iata.org/ns/cargo#arrivalLocation) property MUST be a link to a Location data object
-- [departureLocation](https://onerecord.iata.org/ns/cargo#departureLocation) property MUST be a link to a Location data object
-
 **LogisticsEvent**
 
-- For Shipment Tracking, the [eventTimeType](https://onerecord.iata.org/ns/cargo#eventTimeType) property MUST be set to [ACTUAL](https://onerecord.iata.org/ns/cargo#ACTUAL)
-- For the [eventCode](https://onerecord.iata.org/ns/cargo#eventCode) property, a NamedIndividual from the [ONE Record core code lists ontology] (https://onerecord.iata.org/ns/coreCodeLists) MUST be used.
-- The [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator) property MUST be set to `false` to indicate a partially reached milestone, e.g. when some - but not all - pieces of a shipment have reached the milestone
-- The [recordedAtLocation](https://onerecord.iata.org/ns/cargo#recordedAtLocation) property MUST be a link to a Location data object.
+- LogisticsEvents are created in the context of a LogisticsObject, which MUST be consider when generating its `@id` property. The `@id` of a LogisticsEvent MUST be generated by using the `@id` of the LogisticsObject and appending `/logistics-events/{logisticsEventId}`, for example, `https://1r.example.com/logistics-objects/8a76ed85-959e-45d5-8c42-5fd39c08efb1/logistics-events/23e4d5f6-959e-45d5-8c42-5fd39c08efb1`
+- For ShipmentTracking, the [eventTimeType](https://onerecord.iata.org/ns/cargo#eventTimeType) property MUST be set to [ACTUAL](https://onerecord.iata.org/ns/cargo#ACTUAL) or [PLANNED](https://onerecord.iata.org/ns/cargo#PLANNED). However, an LogisticsEvent with eventCode BKD MUST be only of eventTimeType [ACTUAL](https://onerecord.iata.org/ns/cargo#ACTUAL).
+- For the [eventCode](https://onerecord.iata.org/ns/cargo#eventCode) property, a NamedIndividual from the [ONE Record core code lists ontology](https://onerecord.iata.org/ns/coreCodeLists) MUST be used.
+- The [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator) property MUST only be used when some - but not all - pieces of a shipment have reached the milestone. In this case, this property MUST be set to `true` to indicate a partially reached milestone.
+- The [recordedAtLocation](https://onerecord.iata.org/ns/cargo#recordedAtLocation) property MUST be a link to a [Location](https://onerecord.iata.org/ns/cargo#Location) data object.
 
-<!--
-tbd:
 For shipment tracking, Status Event Code, Reason Code (for DIS) and Partial ID (shipment level only) in data element <eventCode>
 - concepts to map planning and actual status information
   - info from BKD status / booking info to be used for planned milestones
   - info from other status codes to be used for actual milestones
--->
 
-The following shows an example for a completes departure (DEP) milestone:
+
+The following shows an example for a completes departure (DEP) milestone, without the [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator) property:
 ```json
 {
     "@context": {
         "@vocab": "https://onerecord.iata.org/ns/cargo#"
     },
     "@type": "LogisticsEvent",
-    "@id": "https://1r.example.com/logistics-object/abcd/logistics-events/xyz",
+    "@id": "https://1r.example.com/logistics-objects/8a76ed85-959e-45d5-8c42-5fd39c08efb1/logistics-events/23e4d5f6-959e-45d5-8c42-5fd39c08efb1",
     "eventTimeType": {
         "@id": "https://onerecord.iata.org/ns/cargo#ACTUAL"
     },
     "eventCode": {
-        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_DEP"
+        "@id": "https://onerecord.iata.org/ns/coreCodeLists#StatusCode_DEP"
     },    
     "eventDate": {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
@@ -717,23 +712,24 @@ The following shows an example for a completes departure (DEP) milestone:
 ```
 ([logistics-event-DEP.json](./assets/logistics-event-DEP.json))
 
-The following shows an example for a partial completed departure (DEP) milestone:
+The following shows an example for a partial completed departure (DEP) milestone with the [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator) property set to `true`:
+
 ```json
 {
     "@context": {
         "@vocab": "https://onerecord.iata.org/ns/cargo#"
     },
     "@type": "LogisticsEvent",
-    "@id": "https://1r.example.com/logistics-object/abcd/logistics-events/xyz",
+    "@id": "https://1r.example.com/logistics-objects/8a76ed85-959e-45d5-8c42-5fd39c08efb2/logistics-events/23e4d5f6-959e-45d5-8c42-5fd39c08efb2",
     "eventTimeType": {
         "@id": "https://onerecord.iata.org/ns/cargo#ACTUAL"
     },
     "eventCode": {
-        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_DEP"
+        "@id": "https://onerecord.iata.org/ns/coreCodeLists#StatusCode_DEP"
     },    
     "eventDate": {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
-        "@value": "2023-04-01T10:38:01.000Z"
+        "@value": "2023-11-02T10:38:01.000Z"
     },    
     "partialEventIndicator": {
         "@type": "http://www.w3.org/2001/XMLSchema#boolean",
@@ -746,28 +742,40 @@ The following shows an example for a partial completed departure (DEP) milestone
 ```
 ([logistics-event-DEP-partial.json](./assets/logistics-event-DEP-partial.json))
 
-#### Linking LogisticsEvents and LogisticsObjects
+**Linking LogisticsObjects and LogisticsEvents**
 
-**General Logic:**
-shipment LogisticsEvent all have first departure reached
+A LogisticsEvent (shipment LogisticsEvent all have first departure reached
 shipment LogisticsEvent all have last arrived reached
+The LogisticsEvent haben eine Sonderstellung, obwohl es nach dem ONE Record datenmodell möglichst ist die LogisticsEvents über die property #events an ein LogisticsObject zu hängen, ist vorgesehen diese über eine eingen Endpoint abzufragen.
+
+When all pieces of a shipment have departed, the shipment has departed. 
+
+### Examples
+
+This section demonstrates the previously described [implementation guidelines](#implementation-guidelines) with examples.
 
 
-The previously described guidelines result in the following examples:
 
-**Legend:**  
-> Rectangle: LogisticsObject
-> 
-> Diamond (green): LogisticsEvent
-> 
-> Diamond (yellow): LogisticsEvent with [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator)=true
+**Refer to this legend to interpret the shapes used in examples:**
+> - **Blue rectangle with solid blue line:** LogisticsObject (e.g. Shipment, Piece, TransportMovement)
+> - **Blue rectangle with dashed yellow line:** LogisticsObject with [skeletonIndicator](https://onerecord.iata.org/ns/cargo#skeletonIndicator)=true
+> - **Green diamond with solid green line:** LogisticsEvent without [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator)
+> - **Yellow diamond with dashed yellow line:** LogisticsEvent with [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator)=true
+> - **(Plan)** indicates that the LogisticsEvent is a planned milestone
+> - **(Act)** indicates that the LogisticsEvent is an actual milestone
+![Data Mapping Examples Legend](./assets/data-mapping-examples-legend.png)
 
 
-**Example 1: Shipment with one piece**
+#### Example 1a: Shipment with one piece (only planned milestones)
 
-![Example 1: Shipment with one piece](./assets/data-mapping-example-1.png)
+![Example 1a: Shipment with one piece (only planned milestones)](./assets/data-mapping-example-1a.png)
 
-Shipment milestones equal piece milestones, plus BKD milestone.
+Example 1a shows a shipment with only one piece that has reached the milestone Booked (BKD). 
+In addition, the milestones Freight on Hand (FOH) and Received from Shipper (RCS) are planned for the shipment and the piece.
+
+#### Example 1b: Shipment with one piece (planned and actual milestones)
+
+Example 1a is an extension of Example 1a and shows a situation where the milestones Freight on Hand (FOH) and Received from Shipper (RCS) are planned for the shipment and the piece were planned; and the shipment and its piece has reached the milestones: Booked (BKD), Freight on Hand (FOH), and Received from Shipper (RCS).
 
 In legacy Cargo-IMP this status would be captured by the following FSU messages:
 
@@ -777,9 +785,11 @@ FSU/14 020-12345675FRAJFK/T1K100 FOH/16OCT1317/FRA/LCAG
 FSU/14 020-12345675FRAJFK/T1K100 RCS/16OCT1317/FRA/LCAG
 ```
 
-**Example 2: Shipment with one piece and flight specific status**
+![Example 1b: Shipment once piece (planned and actual milestones)](./assets/data-mapping-example-1b.png)
 
-![Example 2: Shipment with one piece with flight specific status](./assets/data-mapping-example-2.png)
+#### Example 2a: Shipment with one piece and flight specific status
+
+![Example 2a: Shipment with one piece with flight specific status](./assets/data-mapping-example-2a.png)
 
 The shipment has reached five miletones: BKD, FOH, RCS, MAN, DEP
 The piece has reached four milestones: FOH, RCS, MAN, DEP
@@ -795,8 +805,16 @@ FSU/14 020-12345675FRAJFK/T1K100 MAN/LH400/16OCT/FRAJFK
 FSU/14 020-12345675FRAJFK/T1K100 DEP/LH400/16OCT/FRAJFK/T1K100
 ```
 
+#### Example 2b: Two shipments with one piece each (planned on same flight)
 
-**Example 3: Shipment with two pieces and different status each**
+![Example 2b: Two shipments with one piece each and flight specific status](./assets/data-mapping-example-2b.png)
+
+#### Example 2c: Rescheduled shipment with one piece
+
+![Example 2c: Rescheduled shipment with one piece](./assets/data-mapping-example-2c.png)
+
+
+#### Example 3: Shipment with two pieces and different status each
 
 ![Example 3: Shipment with two pieces and different status each](./assets/data-mapping-example-3.png)
 
@@ -807,7 +825,7 @@ Later, when all pieces of a shipment have reached a milestone, an additional Log
 Pieces will always have LogisticsEvent data objecs without the [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator).
 
 
-**Example 4: Split Shipment with two pieces**
+#### Example 4: Split Shipment with two pieces
 
 ![Example 4: Split Shipment with two pieces](./assets/data-mapping-example-4.png)
 
@@ -816,7 +834,7 @@ Only one piece reached the DEP miletone. Therefore the shipment only has a DEP m
 When the second piece reached the DEP milestone, the shipment will get a second DEP milestone with the `partialEventIndicator = true`, and a third DEP milestone without the `partialEventIndicator`
 
 
-**Example 5a: Transit Shipment with one piece, completely manifested**
+#### Example 5a: Transit Shipment with one piece, completely manifested
 
 ![Example 5a: Transit Shipment with one piece, completely manifested](./assets/data-mapping-example-5a.png)
 
@@ -824,18 +842,109 @@ This example demonstrates the benefits of having LogisticsEvents also added to t
 by matching MAN#1 of Piece #1 with MAN#1 of TransportMovement.
 
 
-**Example 5b: Transit Shipment with one piece, not completely manifested**
+#### Example 5b: Transit Shipment with one piece, not completely manifested
 
 ![Example 5b: Transit Shipment with one piece, not completely manifested](./assets/data-mapping-example-5b.png)
 
 
-**Example 6: Split Transit Shipment with two pieces**
+#### Example 6: Split Transit Shipment with two pieces
 
 ![Example 6: Split Transit Shipment with two pieces](./assets/data-mapping-example-6.png)
 
-## API Design
+#### Example 7: Planned Shipment with one piece and LAT and TOA
 
-# Required API implementation
+## Data Exchange
+
+The ShipmenTracking use case is an easy starting point for a ONE Record transition for data providers and consumers. 
+As it doesn't directly include the conclusion of a contract and can usually be considered as 
+"one way communication", not all technical ONE Record features must be used.
+
+### Endpoints
+
+The ONE Record API provides a set of endpoints to exchange data. 
+However, not all endpoints are required for the ShipmentTracking use case, e.g. the endpoints for audit trail, and change requests. 
+
+In the following table we describe the ONE Record API endpoints required for ShipmentTracking:
+
+| Resource / Endpoint                                                            | HTTP Action | Description                                                           |
+| ------------------------------------------------------------------------------ | ----------- | --------------------------------------------------------------------- |
+| /logistics-objects/{{logisticsObjectId}}                                       | GET         | Get LogisticsObject details                                           |
+| /logistics-objects/{{logisticsObjectId}}/logistics-events                      | GET         | Get all LogisticsEvents of a LogisticsObject                          |
+| /logistics-objects/{{logisticsObjectId}}/logistics-events/{{logisticsEventId}} | GET         | Get LogisticsEvent details                                            |
+| /subscriptions                                                                 | GET         | Provide subscription information to publisher                         |
+| /subscriptions                                                                 | POST        | Request a subscription for a LogisticsObject                          |
+| /access-delegation                                                             | POST        | Request access delegation for a LogisticsObject and/or LogisticsEvent |
+| /action-requests/{{actionRequestId}}                                           | GET         | Check status of subscription or access delegation request             |
+| /action-requests/{{actionRequestId}}                                           | DELETE      | Revoke a pending subscription or access delegation request            |
+| /notifications                                                                 | POST        | Receive shipment tracking updates                                     |
+
+### Security
+
+ShipmentTracking considers various types of security requirements.
+
+- **Public access:** Also known as `Open Tracking API`, this offers the easiest to implement but least secured access. 
+The data provider makes the data available to the public without verifying the identity and permissions. (no authentication required, no authorization required)  
+- **Authenticated access** (authentication required): This level requires data consumers to prove their identity before accessing the tracking information. 
+This adds a layer of security by ensuring that only recognized clients can interact with the API.
+- **Authorized access** (authentication and authorization required): This requires that the requestor MUST present a valid identity and it is checked who is trying to access the API 
+and whether the person has sufficient authorization to perform the request.
+
+The final decision on which security requirements are required for a specific use case is made by the data provider.
+
+Considering the following scenarios when selecting the level of security:
+- non sensitive vs. sensitive information
+  sensitive data e.g.:
+  - Tracking info for Valuable or Vulnerable shipments;
+  - content of (M)AWB contractual data, i.e. beyond flight routing, quantity details and shipment status
+- wer darf welche Daten sehen, etc. FWD, GHA, andere / Identifizierung
+
+
+- Because of the specificaiton ofthe standard, every request to a logistics-object needs to be authenticated by definition.
+- The authoriation and access limitation is up to the implementer.
+
+As for every public facing web API, it is RECOMMENDED to follow security best practices, including authentication, authorization, data encryption, and others, to ensure safe and secure data exchange.
+
+For security reasons, it is RECOMMENDED to restrict access to logistics objects and logistics events to keep track of data access and data consumers.
+
+For this use case, the authorization approach is left over to the implementing party. 
+As of the nature of the "open" tracking API, authentication might not be required at all.
+
+- Open: 
+- Authentication required
+- Authorization (incl. authentication) required
+
+Example JWT Token (encoded):
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhYTk4N2RjZS02YjUxLTExZWUtYjk2Mi0wMjQyYWMxMjAwMDIiLCJleHAiOjE2OTczNzA5OTYsImlzcyI6Imh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbS9vYXV0aDIvZGVmYXVsdC92MS90b2tlbi90b2tlbiIsInN1YiI6IjEyMzQ1Njc4OTAiLCJsb2dpc3RpY3NfYWdlbnRfdXJpIjoiaHR0cDovLzFyLmV4YW1wbGUuY29tL2xvZ2lzdGljcy1vYmplY3RzL29yZ2FuaXphdGlvbi0xIn0.B7tYWhuVwscgHkmNOOGueNQ7D3uM0QXy6Al6OTuKZq4
+```
+
+Example JWT token (decoded payload):
+```json
+{
+  "aud": "aa987dce-6b51-11ee-b962-0242ac120002",
+  "exp": 1697370996,
+  "iss": "https://auth.example.com/oauth2/default/v1/token/token",
+  "sub": "1234567890",
+  "logistics_agent_uri": "http://1r.example.com/logistics-objects/organization-1"
+}
+```
+
+The ONE Record API can use the claim `logistics_agent_uri` in the JWT token to identify the data consumer and determine access rights to the requested resource.
+
+
+
+The solution should principally "open" to maximize the user's benefits and minimize hurdles of implementation. 
+This means that a basic layer of information should be available for data consumers without authentication. 
+Some stakeholders might still require technical features like API keys for technical management, 
+hurdles should be kept as low as possible for the user.
+
+Although the base layer is as open as possible, additional, more sensitive information can be made available over the same API endpoints after an authentication. 
+Thus, this use case is a good starting point for entering the ONE Record digital eco system.
+
+
+
+### Required API implementation
 
 The publisher's ONE Record API MUST implement the 
 - GET LogisticsObject endpoint
@@ -845,21 +954,12 @@ The subscriber's MUST implement a `/notifications` endpoint to receive Notificat
 
 ## Required functions
 
-The open tracking use case is an easy starting point for a ONE Record transition. 
-As it doesn't directly include the conclusion of a contract and can usually be considered as 
-"one way communication", not all technical ONE Record features must be used.
-
 The following technical features are required on the data provider side:
 
 - Implemented basic requests: GET, POST
 - Generating and managing links for linked data
 - Support publish and subscribe
 
-Not necessarily required are
-
-- Processing external change requests
-- Providing an audit trail
-- Supporting access delegation
 
 On the data consumer side, even less functions are required for pure data consumption from the open tracking API:
 
@@ -874,6 +974,7 @@ single ONE Record server / multiple ONE Record clients
 
 > For the sake of better comprehensibility, in the following examples it is assumed tht all data objects are 
 > provided by a single data owner and hosted on a single ONE Record server, e. g. 1r.example.com
+> This is the case in variant 1 and variant 2 where only one data holder shares the data. (cf. [data holder variants](#variants))
 > In a real world environment, data objects are distributed across multiple ONE Record servers. These can be, 
 > for example, carriers, ground handling agent (GHA), and other parties that also provide milestones and status updates
 > along the supply chain. While the base URL component of the URIs may change, the API interactions remain the same.
@@ -881,7 +982,7 @@ single ONE Record server / multiple ONE Record clients
 
 ### LogisticsObject URI
 
-Every Logistic Object as defined the [data mapping](#data-mapping) has globally unique id.
+Every Logistic Object as defined the [data mapping](#data-mapping) MUST have a globally unique id.
 This good practice follows the defined structure of logistics object URIs which can be found in the [ONE Record API specification](https://iata-cargo.github.io/ONE-Record/concepts/#logistics-object-uri).
 
 #### Waybill Specific LogisticsObject URI
@@ -895,7 +996,13 @@ because the data consumer is unknown due to the assumption of an "open API".
 To solve this problem, for this specific use case, the URI for the GET request should contain the AWB number as the logisticsObjectId for the request. 
 The following section describes a reference implementation.
 
-## Use Case: Request shipment status for given waybill identifier
+### Use Case: Request shipment status for given waybill identifier
+
+> **Note:**
+> 
+> "JSON-LD uses the same array representation as JSON, the collection is unordered by default. While order is preserved in regular JSON arrays, it is not in regular JSON-LD arrays unless specifically defined."
+> 
+> Source: [JSON-LD 1.1 specification](https://www.w3.org/TR/json-ld11/#terms-imported-from-other-specifications)
 
 ### data holder depending on entry point
 
@@ -1101,55 +1208,13 @@ The 1R ChangeRequest process and Error Handling procss is described in the [ONE 
 chapters [Subscriptions](https://iata-cargo.github.io/ONE-Record/subscriptions/), [Notifications](https://iata-cargo.github.io/ONE-Record/notifications/), and [Action Requests](https://iata-cargo.github.io/ONE-Record/action-requests/).
 
  
-## Security
-
-- Because of the specificaiton ofthe standard, every request to a logistics-object needs to be authenticated by definition.
-- The authoriation and access limitation is up to the implementer.
-
-As for every public facing web API, it is RECOMMENDED to follow security best practices, including authentication, authorization, data encryption, and others, to ensure safe and secure data exchange.
-
-For security reasons, it is RECOMMENDED to restrict access to logistics objects and logistics events to keep track of data access and data consumers.
-
-For this use case, the authorization approach is left over to the implementing party. 
-As of the nature of the "open" tracking API, authentication might not be required at all.
-
-- Open: 
-- Authentication required
-- Authorization (incl. authentication) required
-
-Example JWT Token (encoded):
-
-```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhYTk4N2RjZS02YjUxLTExZWUtYjk2Mi0wMjQyYWMxMjAwMDIiLCJleHAiOjE2OTczNzA5OTYsImlzcyI6Imh0dHBzOi8vYXV0aC5leGFtcGxlLmNvbS9vYXV0aDIvZGVmYXVsdC92MS90b2tlbi90b2tlbiIsInN1YiI6IjEyMzQ1Njc4OTAiLCJsb2dpc3RpY3NfYWdlbnRfdXJpIjoiaHR0cDovLzFyLmV4YW1wbGUuY29tL2xvZ2lzdGljcy1vYmplY3RzL29yZ2FuaXphdGlvbi0xIn0.B7tYWhuVwscgHkmNOOGueNQ7D3uM0QXy6Al6OTuKZq4
-```
-
-Example JWT token (decoded payload):
-```json
-{
-  "aud": "aa987dce-6b51-11ee-b962-0242ac120002",
-  "exp": 1697370996,
-  "iss": "https://auth.example.com/oauth2/default/v1/token/token",
-  "sub": "1234567890",
-  "logistics_agent_uri": "http://1r.example.com/logistics-objects/organization-1"
-}
-```
-
-The ONE Record API can use the claim `logistics_agent_uri` in the JWT token to identify the data consumer and determine access rights to the requested resource.
-
-### Use case specific requirements for authentication
-- non sensitive vs. sensitive information
-  sensitive data e.g.:
-  - Tracking info for Valuable or Vulnerable shipments;
-  - content of (M)AWB contractual data, i.e. beyond flight routing, quantity details and shipment status
-- wer darf welche Daten sehen, etc. FWD, GHA, andere / Identifizierung
 
 
-## Useful references and assumptions
 
-### Mapping 1R Data Model <-> Cargo-IMP
-As of now ShipmentTracking related data has been exchanged mostly via IATA Cargo IMP FSU and FSA messages. 
+# Migration from Legacy Data Exchange
+As of now ShipmentTracking related data has been exchanged mostly via Cargo-IMP FSU and FSA messages. 
 These messages provide status information for dedicated events of the airport to airport process on (M)AWB level. 
-Same applied to equivalent IATA Cargo XML messages.
+Same applied to equivalent Cargo-XML messages.
 In contrast to that the 1R data model is based on piece level. Moreover, via 1R logistics event related information 
 can be provided for any logistics objects available in the 1R data model. This involves differences to both, 
 methodologies of data exchange and structure of data.
@@ -1157,9 +1222,11 @@ This has to be considered when migrating data exchange to 1R and/or transferring
 data interchange methods.
 The attached mapping instructions shall help to understand these differences, explain how to use the 1R data model 
 to exchange ShipmentTracking related data, as well as provide guidelines of converting data from and to 1R. 
-=> see reference
 
-# Migration from CargoIMP / CargoXML
+Compared to existing exchanges, e.g. via CargoIMP/CargoXML, some milestones in a ONE Record environment are assigned to other objects - partly more fine-grained. 
+
+The table [ONE-Record-CargoIMP-Mapping.xslx](/assets/ONE-Record-CargoIMP-Mapping.xslx) illustrates the relationship of data classes and their data properties in ONE Record with the legacy standard Cargo-IMP and CargoXML through a mapping.
+
 
 
 
@@ -1168,6 +1235,10 @@ see [digita-cargo/glossary](https://github.com/digital-cargo/glossary)
 
 ## References
 
+- ...
+- ...
+- ...
+  
 ## Acknowledgements
 
 The initial version of this document is the outcome of the 
@@ -1191,18 +1262,19 @@ Issues related to this good practice are tracked on GitHub
 
 ### Maintainers
 
-> Each good practice MUST have at least two maintainers - a lead maintainer and a deputy maintainer -  who are responsible for ongoing development and quality assurance. Both MUST have commit access to the good practice repository.
+> Each good practice MUST have at least one maintainer who is responsible for ongoing development and quality assurance. 
+> Every maintainer MUST have commit access to the good practice repository.
 
 - [Daniel A. Döppner](https://github.com/ddoeppner), Lufthansa Industry Solutions 
-- Ingo Zeschky, Lufthansa Cargo
+- [Ingo Zeschky](https://github.com/ChrisKranich), Lufthansa Cargo
 - [Philipp Billion](https://github.com/DrPhilippBillion), Lufthansa Cargo
 
 _(sorted alphabetically)_
 
 ### Contributors
 
-> Every good practice is the result of the work of the community, and therefore the contribution of each individual should be recognized and appreciated. Below is a list of all the people who have actively contributed to this good practice.
-
+> Every good practice is the result of the work of the community, and therefore the contribution of each individual should be recognized and appreciated. 
+> Below is a list of all the people who have actively contributed to this good practice.
 
 - Ajay Manoharan, Qatar Airways
 - Arnaud Lambert, IATA

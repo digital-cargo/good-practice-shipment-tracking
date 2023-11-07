@@ -8,7 +8,7 @@
         "@id": "https://onerecord.iata.org/ns/cargo#ACTUAL"
     },
     "eventCode": {
-        "@id": " https://onerecord.iata.org/ns/coreCodeLists#StatusCode_ARR"
+        "@id": "https://onerecord.iata.org/ns/coreCodeLists#StatusCode_ARR"
     },
     "eventDate": {
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
