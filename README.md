@@ -268,31 +268,37 @@ The following class diagram shows the LogisticsObject data classes used and thei
         + codeListReference: xsd:string
     }
     class Booking~LogisticsService~ {
-        + issuedForWaybill: Waybill        
-        + updateBookingOptionRequests: BookingOptionRequest
+        + bookingRequest: BookingRequest
+        + issuedForWaybill: Waybill
+        + skeletonIndicator: xsd:boolean [0..1]
     }
     Booking "1" --> "1" Waybill: issuedForWaybill
-    Booking "1" --> "1" BookingOptionRequest: updateBookingOptionRequests
-        class BookingOption {
-        + carrierProduct: CarrierProduct [0..*]
-        + forBookingOptionRequest: BookingOptionRequest
+    Booking "1" --> "1" BookingRequest: bookingRequest
+
+    class BookingRequest~LogisticsObject~ {
+        + booking: Booking
+        + forBookingOption: BookingOption
+        + skeletonIndicator: xsd:boolean [0..1]
     }
-    BookingOption "1" --> "1" BookingOptionRequest: forBookingOptionRequest
-    BookingOption "1" --> "0..*" CarrierProduct: carrierProduct
+    BookingRequest "1" --> "1" Booking: booking
+    BookingRequest "1" --> "1" BookingOption: forBookingOption
+    
+    class BookingOption~LogisticsObject~ {
+        + bookingTimes: BookingTimes
+        + carrierProduct: CarrierProduct
+        + forBookingRequest: BookingRequest
+        + skeletonIndicator: xsd:boolean [0..1]
+    }
+
+    BookingOption "1" --> "1" BookingRequest: forBookingRequest
+    BookingOption "1" --> "0..1" CarrierProduct: carrierProduct
+    BookingOption "1" --> "0..1" BookingTimes: bookingTimes
+  
     class CarrierProduct {
         + productCode: CodeListElement
         + productDescription: xsd:string
     }
     CarrierProduct "1" --> "1" CodeListElement: productCode
-
-    class BookingOptionRequest {
-        + bookingOptions: BookingOption
-        + bookingToUpdate: Booking
-        + timePreferences: BookingTimes
-    }
-    BookingOptionRequest "1" --> "1" BookingOption: bookingOptions
-    BookingOptionRequest "1" --> "1" Booking: bookingToUpdate
-    BookingOptionRequest "1" --> "1" BookingTimes: timePreferences
 
     class BookingTimes {
         + latestAcceptanceTime: xsd:dateTime
