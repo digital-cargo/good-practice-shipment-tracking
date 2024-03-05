@@ -1271,7 +1271,7 @@ Issues related to this good practice are tracked on GitHub
 > Each good practice MUST have at least one maintainer who is responsible for ongoing development and quality assurance. 
 > Every maintainer MUST have commit access to the good practice repository.
 
-- [Daniel A. Döppner](https://github.com/ddoeppner), Lufthansa Industry Solutions 
+- [Daniel A. Döppner](https://github.com/ddoeppner), Lufthansa Cargo 
 - [Ingo Zeschky](https://github.com/ChrisKranich), Lufthansa Cargo
 - [Philipp Billion](https://github.com/DrPhilippBillion), Lufthansa Cargo
 
@@ -1293,7 +1293,8 @@ _(sorted alphabetically)_
 - Mary Stradling, DHL
 - Matthias Hurst, Colog AG
 - Pramod Rao, Nexshore Technologies
-- [Ying Lu](https://github.com/luyinglu), Lufthansa Cargo
+- [Ying Lu](https://github.com/luyinglu), Lufthansa Industry Solutions
+- [Hendrik Gruber](https://github.com/HendrikLH), Lufthansa Industry Solutions
 
 _(sorted alphabetically)_
 
