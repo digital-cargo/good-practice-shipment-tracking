@@ -749,12 +749,9 @@ The following shows an example for a partial completed departure (DEP) milestone
 ([logistics-event-DEP-partial.json](./assets/logistics-event-DEP-partial.json))
 
 **Linking LogisticsObjects and LogisticsEvents**
+A LogisticsEvent denotes a specific event within the shipment process. All shipments have a first departure event and a last arrive event. While it is theoretically possible within the ONE record model to attach LogisticsEvents to a LogisticsObject via the #events property, it is intended to query these events through a dedicated endpoint.
 
-A LogisticsEvent (shipment LogisticsEvent all have first departure reached
-shipment LogisticsEvent all have last arrived reached
-The LogisticsEvent haben eine Sonderstellung, obwohl es nach dem ONE Record datenmodell möglichst ist die LogisticsEvents über die property #events an ein LogisticsObject zu hängen, ist vorgesehen diese über eine eingen Endpoint abzufragen.
-
-When all pieces of a shipment have departed, the shipment has departed. 
+When all pieces of a shipment have departed, the shipment has departed.
 
 ### Examples
 
@@ -1284,7 +1281,8 @@ _(sorted alphabetically)_
 
 - Ajay Manoharan, Qatar Airways
 - Arnaud Lambert, IATA
-- Bilel Chakroun, Air France-KLM 
+- Bilel Chakroun, Air France-KLM
+- [Hendrik Gruber](https://github.com/HendrikLH), Lufthansa Industry Solutions
 - Josh Priebe, Air Canada
 - Keith Lam, GLS HKG 
 - Mark Belliss, British Telecom 
@@ -1294,7 +1292,6 @@ _(sorted alphabetically)_
 - Matthias Hurst, Colog AG
 - Pramod Rao, Nexshore Technologies
 - [Ying Lu](https://github.com/luyinglu), Lufthansa Industry Solutions
-- [Hendrik Gruber](https://github.com/HendrikLH), Lufthansa Industry Solutions
 
 _(sorted alphabetically)_
 
