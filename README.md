@@ -754,6 +754,7 @@ The following shows an example for a partial completed departure (DEP) milestone
 ([logistics-event-DEP-partial.json](./assets/logistics-event-DEP-partial.json))
 
 **Linking LogisticsObjects and LogisticsEvents**
+
 A LogisticsEvent denotes a specific event within the shipment process. All shipments have a first departure event and a last arrive event. While it is theoretically possible within the ONE record model to attach LogisticsEvents to a LogisticsObject via the #events property, it is intended to query these events through a dedicated endpoint.
 
 When all pieces of a shipment have departed, the shipment has departed.
@@ -765,6 +766,7 @@ This section demonstrates the previously described [implementation guidelines](#
 
 
 **Refer to this legend to interpret the shapes used in examples:**
+
 > - **Blue rectangle with solid blue line:** LogisticsObject (e.g. Shipment, Piece, TransportMovement)
 > - **Blue rectangle with dashed yellow line:** LogisticsObject with [skeletonIndicator](https://onerecord.iata.org/ns/cargo#skeletonIndicator)=true
 > - **Green diamond with solid green line:** LogisticsEvent without [partialEventIndicator](https://onerecord.iata.org/ns/cargo#partialEventIndicator)
@@ -783,7 +785,7 @@ In addition, the milestones Freight on Hand (FOH) and Received from Shipper (RCS
 
 #### Example 1b: Shipment with one piece (planned and actual milestones)
 
-Example 1a is an extension of Example 1a and shows a situation where the milestones Freight on Hand (FOH) and Received from Shipper (RCS) are planned for the shipment and the piece were planned; and the shipment and its piece has reached the milestones: Booked (BKD), Freight on Hand (FOH), and Received from Shipper (RCS).
+Example 1b extends the scenario in Example 1a, illustrating a situation where the milestones Freight on Hand (FOH) and Received from Shipper (RCS) are planned for both the shipment and its piece. Subsequently, the shipment and its piece achieve the milestones Booked (BKD), Freight on Hand (FOH), and Received from Shipper (RCS).
 
 In legacy Cargo-IMP this status would be captured by the following FSU messages:
 
@@ -799,9 +801,11 @@ FSU/14 020-12345675FRAJFK/T1K100 RCS/16OCT1317/FRA/LCAG
 
 ![Example 2a: Shipment with one piece with flight specific status](./assets/data-mapping-example-2a.png)
 
-The shipment has reached five miletones: BKD, FOH, RCS, MAN, DEP
-The piece has reached four milestones: FOH, RCS, MAN, DEP
-Even if not necessary to linked logistics events to the TransportMovement object, it is helpful for data consumption to compare the eventCode and eventTime of the MAN or DEP LogisticsEvent.
+The shipment has reached five miletones: BKD, FOH, RCS, MAN, and DEP.
+
+The piece has reached four milestones: FOH, RCS, MAN, and DEP.
+
+Even if it is not necessary to link logistics events to the TransportMovement object, it is helpful for data consumption to compare the eventCode and eventTime of the MAN or DEP LogisticsEvent.
 The same MAN and DEP LogisticsEvents are created for the transport movement.
 
 In legacy Cargo-IMP this status would be captured by the following FSU messages:
@@ -837,16 +841,17 @@ Pieces will always have LogisticsEvent data objecs without the [partialEventIndi
 
 ![Example 4: Split Shipment with two pieces](./assets/data-mapping-example-4.png)
 
-The shipment is reached the MAN milestone.
-Only one piece reached the DEP miletone. Therefore the shipment only has a DEP milestone with the `partialEventIndicator = true`
-When the second piece reached the DEP milestone, the shipment will get a second DEP milestone with the `partialEventIndicator = true`, and a third DEP milestone without the `partialEventIndicator`
+The shipment has reached the MAN milestone.
+Only one piece reached the DEP miletone. Therefore the shipment only has a DEP milestone with the `partialEventIndicator = true`.
+
+When the second piece reaches the DEP milestone, the shipment will get a second DEP milestone with the `partialEventIndicator = true`, and a third DEP milestone without the `partialEventIndicator`
 
 
 #### Example 5a: Transit Shipment with one piece, completely manifested
 
 ![Example 5a: Transit Shipment with one piece, completely manifested](./assets/data-mapping-example-5a.png)
 
-This example demonstrates the benefits of having LogisticsEvents also added to the TransportMovements
+This example demonstrates the benefits of having LogisticsEvents also be added to the TransportMovements
 by matching MAN#1 of Piece #1 with MAN#1 of TransportMovement.
 
 
@@ -863,9 +868,8 @@ by matching MAN#1 of Piece #1 with MAN#1 of TransportMovement.
 
 ## Data Exchange
 
-The ShipmenTracking use case is an easy starting point for a ONE Record transition for data providers and consumers. 
-As it doesn't directly include the conclusion of a contract and can usually be considered as 
-"one way communication", not all technical ONE Record features must be used.
+The Shipment Tracking use case serves as a straightforward entry point for transitioning to ONE Record for both data providers and consumers. Since it primarily involves one-way communication and doesn't necessarily entail contract conclusions, not all technical features of ONE Record need to be utilized directly.
+
 
 ### Endpoints
 
@@ -890,25 +894,24 @@ In the following table we describe the ONE Record API endpoints required for Shi
 
 ShipmentTracking considers various types of security requirements.
 
-- **Public access:** Also known as `Open Tracking API`, this offers the easiest to implement but least secured access. 
-The data provider makes the data available to the public without verifying the identity and permissions. (no authentication required, no authorization required)  
-- **Authenticated access** (authentication required): This level requires data consumers to prove their identity before accessing the tracking information. 
+- **Public access:** _(no authentication required, no authorization required)_ Also known as `Open Tracking API`, this offers the easiest to implement but least secured access. The data provider makes the data available to the public without verifying the identity and permissions.
+
+- **Authenticated access** _(authentication required)_: This level requires data consumers to prove their identity before accessing the tracking information. 
 This adds a layer of security by ensuring that only recognized clients can interact with the API.
-- **Authorized access** (authentication and authorization required): This requires that the requestor MUST present a valid identity and it is checked who is trying to access the API 
+- **Authorized access** _(authentication and authorization required)_: This requires that the requestor MUST present a valid identity and it is checked who is trying to access the API 
 and whether the person has sufficient authorization to perform the request.
 
 The final decision on which security requirements are required for a specific use case is made by the data provider.
 
 Considering the following scenarios when selecting the level of security:
-- non sensitive vs. sensitive information
-  sensitive data e.g.:
-  - Tracking info for Valuable or Vulnerable shipments;
-  - content of (M)AWB contractual data, i.e. beyond flight routing, quantity details and shipment status
-- wer darf welche Daten sehen, etc. FWD, GHA, andere / Identifizierung // Todo deutsch
+- Non sensitive vs. sensitive information. Sensitive data may include:
+  - Tracking information for valuable or vulnerable shipments;
+  - Content of (M)AWB contractual data, i.e. beyond flight routing, quantity details and shipment status
+- Who is allowed to view what data, FWD, GHA, etc.
 
+- Because of the specificaiton of the standard, every request to a logistics-object needs to be authenticated by definition.
 
-- Because of the specificaiton ofthe standard, every request to a logistics-object needs to be authenticated by definition.
-- The authoriation and access limitation is up to the implementer.
+:warning: Every party implementing the ONE Record model is responsible for its own security implementations, as defined in the [ONE Record Authentication & Authorization documentation](https://iata-cargo.github.io/ONE-Record/security/authn-application-layer/).
 
 As for every public facing web API, it is RECOMMENDED to follow security best practices, including authentication, authorization, data encryption, and others, to ensure safe and secure data exchange.
 
@@ -917,9 +920,9 @@ For security reasons, it is RECOMMENDED to restrict access to logistics objects 
 For this use case, the authorization approach is left over to the implementing party. 
 As of the nature of the "open" tracking API, authentication might not be required at all.
 
-- Open: 
+- Open (No authentication required)
 - Authentication required
-- Authorization (incl. authentication) required
+- Authorization (including authentication) required
 
 Example JWT Token (encoded):
 
@@ -942,10 +945,9 @@ The ONE Record API can use the claim `logistics_agent_uri` in the JWT token to i
 
 
 
-The solution should principally "open" to maximize the user's benefits and minimize hurdles of implementation. 
+The solution should principally be "open" to maximize the user's benefits and minimize hurdles of implementation. 
 This means that a basic layer of information should be available for data consumers without authentication. 
-Some stakeholders might still require technical features like API keys for technical management, 
-hurdles should be kept as low as possible for the user.
+Some stakeholders might still require technical features like API keys for technical management. Hurdles should be kept as low as possible for the user.
 
 Although the base layer is as open as possible, additional, more sensitive information can be made available over the same API endpoints after an authentication. 
 Thus, this use case is a good starting point for entering the ONE Record digital eco system.
@@ -966,7 +968,7 @@ The following technical features are required on the data provider side:
 
 - Implemented basic requests: GET, POST
 - Generating and managing links for linked data
-- Support publish and subscribe
+- Support publish and subscribe functionality
 
 
 On the data consumer side, even less functions are required for pure data consumption from the open tracking API:
@@ -976,13 +978,13 @@ On the data consumer side, even less functions are required for pure data consum
 
 single ONE Record server / multiple ONE Record clients
 
-> For each use case what is required: server, client, endpoints
+> The following is required, regardless of use case: server, client, endpoints
 
 ## Request Shipment Tracking data
 
-> For the sake of better comprehensibility, in the following examples it is assumed tht all data objects are 
-> provided by a single data owner and hosted on a single ONE Record server, e. g. 1r.example.com
-> This is the case in variant 1 and variant 2 where only one data holder shares the data. (cf. [data holder variants](#variants))
+> For the sake of better comprehensibility, in the following examples it is assumed that all data objects are
+> provided by a single data owner and hosted on a single ONE Record server, e.g. 1r.example.com
+> This is the case in variant 1 and variant 2 where only one data holder shares the data (see [data holder variants](#variants)).
 > In a real world environment, data objects are distributed across multiple ONE Record servers. These can be, 
 > for example, carriers, ground handling agent (GHA), and other parties that also provide milestones and status updates
 > along the supply chain. While the base URL component of the URIs may change, the API interactions remain the same.
@@ -990,7 +992,7 @@ single ONE Record server / multiple ONE Record clients
 
 ### LogisticsObject URI
 
-Every Logistic Object as defined the [data mapping](#data-mapping) MUST have a globally unique id.
+Every Logistic Object as defined in the [data mapping](#data-mapping) MUST have a globally unique id.
 This good practice follows the defined structure of logistics object URIs which can be found in the [ONE Record API specification](https://iata-cargo.github.io/ONE-Record/concepts/#logistics-object-uri).
 
 #### Waybill Specific LogisticsObject URI
@@ -998,9 +1000,8 @@ This good practice follows the defined structure of logistics object URIs which 
 For tokenized URIs, it is assumed that there is always a first contact between data provider and data consumer in a ONE Record world. 
 This results in a specific problem for the given use case. For an "open" API, a previous contact with a subscription cannot be assumed. 
 For the "first contact", the data consumer requires the unique tokenized ID for a shipment to request the data from the data owner. 
-However, at this point the tokenized URI is not yet known or communicated. The data provider on the other side can not provide the tokenized URI 
-because the data consumer is unknown due to the assumption of an "open API".
- 
+However, at this point the tokenized URI is not yet known or communicated. The data provider on the other side cannot provide the tokenized URI because the data consumer is unknown due to the assumption of an "open API".
+
 To solve this problem, for this specific use case, the URI for the GET request should contain the AWB number as the logisticsObjectId for the request. 
 The following section describes a reference implementation.
 
@@ -1012,14 +1013,15 @@ The following section describes a reference implementation.
 > 
 > Source: [JSON-LD 1.1 specification](https://www.w3.org/TR/json-ld11/#terms-imported-from-other-specifications)
 
-### data holder depending on entry point
+### Data holder depending on entry point
 
-1) Entrypoint is Waybill data object for which the data consumer knowns the LogisticsObjectURI, e.g. AWB number, e.g. 020-12345676. 
-Data consumer can follow property #shipment in Waybill to get Shipment data and - if available - LogisticsEvents for a Shipment. 
+1) The entrypoint is a Waybill data object for which the data consumer knowns the LogisticsObjectURI, e.g. AWB number 020-12345676. 
+Data consumer can follow property #shipment in a Waybill to get Shipment data and - if available - LogisticsEvents for a Shipment. 
 
-This is special use case for air freight shipment tracking and is meant to be easier the transition.
-Existing shipment tracking solutions allow to query for known shipment ids, e.g. the Air Waybill number.
-We encourage everyone to setup a HTTP redirection that accepts the following path structure
+This is a special use case for air freight shipment tracking and is meant to ease the transition.
+
+Existing shipment tracking solutions allow for querying of known shipment IDs, e.g. the Air Waybill number.
+We encourage everyone to setup an HTTP redirection that accepts the following path structure
 `{scheme}://{host}[:port]/[basePath]/logistics-objects/{logisticsObjectId}`
 as described in the [ONE Record API specification](https://iata-cargo.github.io/ONE-Record/concepts/#logistics-object-uri).
 
@@ -1029,10 +1031,10 @@ However, with the deviation that the `logisticsObjectId` URI component should fo
 
 | Component  | Explanation                                                | Example  | Example explanation          |
 | ---------- | ---------------------------------------------------------- | -------- | ---------------------------- |
-| AWB prefix | provides the AWB prefix as part of the uniqueID of the AWB | 020      | Example of LH Cargo's prefix |
-| AWB number | provides the AWB number as part of the uniqueID of the AWB | 12345675 | random example               |
+| AWB prefix | Provides the AWB prefix as part of the uniqueID of the AWB | 020      | Example of LH Cargo's prefix |
+| AWB number | Provides the AWB number as part of the uniqueID of the AWB | 12345675 | Random example               |
 
-This allows to query a ONE Record API as follows:
+This allows the ONE Record API to be queried as follows:
 
 Request:
 ```http
@@ -1049,13 +1051,14 @@ Location: https://1r.example.com/logistics-object/1a8ded38-1804-467c-a369-81a411
 ```
 
 
-The following response serves as an example.
+_The above response serves as an example._
 
-It is a strongly simplified data set with a shipment with one piece only on one transport movement and two events:
+It is a strongly simplified example with only one Piece and only on one TransportMovement with two events:
 
 
-The response contains the actual location of the requested object using the Location http header. 
-The client then has retrieved the unique tokenized ID of the Waybill and can get them by requesting the actual URI.
+The response contains the actual location of the requested object using the Location HTTP-header. 
+
+With this, the client has retrieved the unique tokenized ID of the Waybill and can then get them by requesting the actual URI.
 
 Request:
 
@@ -1100,18 +1103,22 @@ Host: 1r.example.com
 Accept: application/ld+json
 ```
 
+`Embedded data`: Although linking logistics objects instead of embedding logistics objects is the preferred and RECOMMENDED approach, to reduce the number of GET requests, it can be helpful to request an embedded version of a Logistics Object by setting the optional query parameter embedded=true. The ONE Record server SHOULD then replace the linked Logistics Objects with the actual Logistics Objects by resolving the Logistics Object URIs. (As described in the [ONE Record API Specification](https://iata-cargo.github.io/ONE-Record/logistics-objects/?h=embedd#get-a-logistics-object))
+
 Two important remarks on this:
 
 1. Only data hosted on the same ONE Record server can be embedded, as otherwise the ownership control of another party would be violated.
 2. Even if data is embedded, a link for every logistics object must be created additionally, to enable essential ONE Record features like audit trail, pub/sub, access control, etc. for these objects.
 
-### Receive Notifications after Subscribe
+### Receive Notifications after Subscribing
 
 #### Scenario 1 - Receive Complete Shipment Status after Notification
 
-Sequence diagram
-Prerequisite: Subscribed on shipment by publisher
+
+_Prerequisite: Subscribed on Shipment by Publisher_
+
 A -> Notificaions -> B
+
 A <- Get LogisticsEvents <- B
 
 By receiving the non-partial LogisticsEvent for a milestone, 
@@ -1119,26 +1126,27 @@ the data consumer knows that all pieces of that shipment have reached that miles
 
 #### Scenario 2 - Partial Shipment Status after Notification
 
-Sequence diagram
-Prerequisite: Subscribed on shipment by publisher
+
+_Prerequisite: Subscribed on shipment by publisher_
+
 A -> Notificaions -> B
+
 A <- Get LogisticsObject <- B
+
 A <- Get LogisticsObject Piece A <- B
+
 A <- Get LogisticsEvents <- B
 
 By receiving a partial LogisticsEvent for a milestone,
-the data consumer knwos that not the complete shipment, i.e. all pieces of that shipment, have reached that milestone.
-Thus, if the data consumer wants to know which piece has reached or not yet reached the milestone, additional 
-requests have to be made.
+the data consumer knows that the complete shipment has not reached that milestone (i.e. not all pieces of that shipment). Thus, if the data consumer wants to know which piece has or has not yet reached the milestone, additional requests have to be made.
 
 
 ### Shipment data
 
 The data field *Waybill#shipment* contains a link to a shipment. 
-A shipment in ONE Record is the totality of physical entities under one contract. 
-The *Shipment#totalGrossWeight* is a typical data field belonging in this object. 
+A shipment in ONE Record is the totality of physical entities under one contract.  The *Shipment#totalGrossWeight* is a typical data field belonging in this object. 
 
-```
+
 ### Piece linked to the shipment
 
 Here, the piece has volume, dimensions and special handling codes (GEN, SPX and EAP).
