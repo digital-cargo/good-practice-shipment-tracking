@@ -1171,7 +1171,7 @@ HTTP/1.1 307 Temporary Redirect
 Location: https://1r.carrier.com/logistics-objects/awb-020-1234575
 ```
 
-This mechanism enables e.g. a platform to provide a unified ONE Record tracking API in a heterogenous environment, where single stakeholders are providing data in ONE Record format, and others don't.
+This mechanism enables e.g. a platform to provide a unified ONE Record tracking API in a heterogenous environment, where single stakeholders provide data in ONE Record format, and others don't.
   
 ## Shipment Tracking Subscribe
 
@@ -1187,8 +1187,7 @@ The general mechanism of Subscription is described in the [ONE Record API specif
 
 ## Get subscribed to Shipment Tracking Updates 
 
-**Subscription initied by party providing data:** For traditional FSU messaging transfer usually the relevant business partner, i.e. forwarding agent who has issued the AWB, is notified by the carrier proactively. This party usually also performs the booking and provides shipment data beforehand. In this context e.g. a completed booking and space allocation trigger submitting FSU messages to the business partner. For this purpose the carrier might maintain the messaging address (e.g. PIMA or SITA Address) in the internal customer database or any equivalent system.
-A similar process is supported by One Record, i.e. notification process to a known business partner can be triggered by a dedicated shipment status, e.g. Booking completed - BKD. When e.g. BookingData and/or ShipmentRecord related data is shared via 1R beforehand this might be used as trigger.
+**Subscription initied by party providing data:** In traditional FSU messaging transfer, the forwarding agent, typically the party issuing the AWB, is proactively notified by the carrier. This same party often handles the booking and supplies shipment data in advance. For instance, when a booking is completed and space is allocated, FSU messages are sent to the business partner. To facilitate this, the carrier may store the messaging address (e.g., PIMA or SITA Address) in its internal customer database or a similar system. A similar process is supported by One Record, i.e. notification process to a known business partner can be triggered by a dedicated shipment status, e.g. Booking completed - BKD. When e.g. BookingData and/or ShipmentRecord related data is shared via ONE Record beforehand this might be used as trigger.
 Instead of a messaging address the OneRecord Server URI associated with that business partner is used to pass information to the right party. Similar to traditional messaging the carrier might have to maintain a list of URIs and related business partners for this purpose. 
 
 
@@ -1210,17 +1209,17 @@ Instead of a messaging address the OneRecord Server URI associated with that bus
 - Not relevant?
 
 If applicable, ONE Record ChangeRequest process has to be applied when updating logistics objects for a certain shipment.
-Relevance of 1R ChangeRequest process depends on the applied data exchange scenario. Please refer to details above.
+The relevance of ONE Record ChangeRequest process depends on the applied data exchange scenario. Please refer to details above.
 For any logistics object related updates where equivalent data elements exist in traditional messaging specifications 
-it is recommended of using the appropriate MIP "Error" Code along with ChangeIndicator "C" as specified in IATA Message 
+it is recommended to use the appropriate MIP "Error" Code along with ChangeIndicator "C" as specified in IATA Message 
 Improvement Programme as reference.
 
-When data is updated, shared or requested to be shared errors might occur, e.g. requested shipment id is unknown, server 
-not available, logistics object update restricted due to different owner, etc. In general, the standard processes as specified in IATA 1R documentation apply.
-For any logistics object related errors where equivalent data elements exist in traditional messaging specifications it is recommended of using the appropriate 
+When data is updated, shared or requested to be shared errors might occur, e.g. the requested shipment ID may be unknown, a server may not available, logistics object update restricted due to different owner, etc. In general, the standard processes as specified in the ONE Record documentation apply.
+
+For any logistics object related errors where equivalent data elements exist in traditional messaging specifications it is recommended to use the appropriate 
 MIP Error Code as specified in IATA Message Improvement Programme as reference.
 
-The 1R ChangeRequest process and Error Handling procss is described in the [ONE REcord API specification](https://iata-cargo.github.io/ONE-Record/) 
+The ONE Record ChangeRequest process and error handling process is described in the [ONE Record API specification](https://iata-cargo.github.io/ONE-Record/) 
 chapters [Subscriptions](https://iata-cargo.github.io/ONE-Record/subscriptions/), [Notifications](https://iata-cargo.github.io/ONE-Record/notifications/), and [Action Requests](https://iata-cargo.github.io/ONE-Record/action-requests/).
 
  
@@ -1230,24 +1229,19 @@ chapters [Subscriptions](https://iata-cargo.github.io/ONE-Record/subscriptions/)
 # Migration from Legacy Data Exchange
 As of now ShipmentTracking related data has been exchanged mostly via Cargo-IMP FSU and FSA messages. 
 These messages provide status information for dedicated events of the airport to airport process on (M)AWB level. 
-Same applied to equivalent Cargo-XML messages.
-In contrast to that the 1R data model is based on piece level. Moreover, via 1R logistics event related information 
-can be provided for any logistics objects available in the 1R data model. This involves differences to both, 
-methodologies of data exchange and structure of data.
-This has to be considered when migrating data exchange to 1R and/or transferring data between 1R and traditional 
+The same is relevant for equivalent Cargo-XML messages.
+In contrast to that the ONE Record data model is based on piece level. Moreover, via ONE Record logistics event related information can be provided for any logistics objects available in the ONE Record data model. This involves differences to both the methodologies of data exchange and the structure of data.
+
+This has to be considered when migrating existing data exchanges to ONE Record and/or transferring data between ONE Record and traditional 
 data interchange methods.
-The attached mapping instructions shall help to understand these differences, explain how to use the 1R data model 
-to exchange ShipmentTracking related data, as well as provide guidelines of converting data from and to 1R. 
 
-Compared to existing exchanges, e.g. via CargoIMP/CargoXML, some milestones in a ONE Record environment are assigned to other objects - partly more fine-grained. 
+The attached mapping instructions shall help to understand these differences, explain how to use the ONE Record data model 
+to exchange ShipmentTracking related data, as well as provide guidelines of converting data from and to ONE Record. 
 
-The table [ONE-Record-CargoIMP-Mapping.xslx](/assets/ONE-Record-CargoIMP-Mapping.xslx) illustrates the relationship of data classes and their data properties in ONE Record with the legacy standard Cargo-IMP and CargoXML through a mapping.
-
-
-
+Compared to existing exchanges, e.g. via CargoIMP/CargoXML, some milestones in a ONE Record environment are assigned to other objects - partly more fine-grained.
 
 ## Glossary
-see [digita-cargo/glossary](https://github.com/digital-cargo/glossary)
+see [digita-cargo/glossary](https://github.com/IATA-Cargo/ONE-Record/blob/fc8527959754a69a00fcc36d97a0c446618f435f/working_draft/API/docs/glossary.md)
 
 ## References
 
